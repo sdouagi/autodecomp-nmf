@@ -1,0 +1,32 @@
+NMF
+
+Source utilisée: https://medium.com/@zahrahafida.benslimane/audio-source-separation-using-non-negative-matrix-factorization-nmf-a8b204490c7d
+
+On a V le spectrogramme du son à décomposer.
+
+1) V = WH avec W et H >= 0
+W est un dictionnaire avec les élements à décomposer (chat, note de musique, instrument...)
+H contient l'activation des différents élements
+On a V de dimension K*N
+W K*S avec S le nombre de sources à extraire
+H S*N
+
+2) Descente de gradient (méthode des moindres carrés) pour minimiser la distance entre les données V et WH.
+
+3) 
+Algo à utiliser:
+Initialiser de manière random W et H
+Update de W et H
+Repeter l'update jusqu'à convergence ou le nombre max d'itérations
+
+4) Une fois W et H obtenus:
+Pour récuperer les S sources, on multiplie la colonne k de W et la ligne k de H.
+Sk = Wk*Hk
+
+On peut afficher leurs spectrogramme, on voit que les valeurs ne correspondant pas à la source sont à 0.
+
+On reconstruit le signal des S sources en faisant la transformée inverse de Fourier.
+
+
+5) Pour savoir le nombre de sources à décomposer:
+- On itère sur S jusqu'à ce que la séparation soit satisfaisante.

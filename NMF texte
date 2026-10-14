@@ -1,0 +1,22 @@
+Decomposition NMF:
+
+La décomposition NMF repose sur la contrainte de non-négativité, il est donc possible de l'utiliser dans ce cas car les amplitudes sonores et les spectres sont toujours positives
+
+On souhaite maintenant décomposer ce spectrogramme V en produit de deux sous matrices : V=W.H (approximation)
+avec W représentant un dictionnaire contenant les "spectres caractéristiques" de chaque source sonore (chat, note de musique, instrument,...) et H représentant l'activation de ces sources en fonction du temps.
+Cependant, on ne connait pas le nombre de sources sonores à décomposer à l'avance, on l'introduit donc en parametre noté R qu'on cherchera à optimiser par la suite.
+
+
+Afin de trouver la meilleure approximation (ayant notre spectrogramme et le paramètre R fixé) il faudrait donc minimiser la distance entre V et W.H au carré qui dépend donc du type de distance utilisée. On utilisera trois valeurs de B-divergence représentant notre fonction de coût: 
+	-β=0 : Divergence Itakura-Saito (IS)
+	-β=1 : Divergence de Kullback-Leibler (KL) 
+	-β=2 : Norme de Frobenius (erreur quadratique)
+
+Cette distance dépend de 2 variables (W et H), afin de la minimiser on utilise donc la méthode de descente du gradient (au sens des moindres carrés) dont le principe est le suivant:
+	1-On initialise de manière aléatoire W0 et H0 (l=0)
+	2-On considère W0 fixé et on minimise la fonction de coût en fonction de H0 uniquement. On 				 	met donc à jour H1 avec la formule:
+	3-On considère cette fois H1 fixé et on minimise la fonction de coùt en fonction de W0 	uniquement. On met donc à jour W1 avec la formule:
+	4-On incrémente l
+	5-On répète les étapes 2-3-4 jusqu'à ce que les "suites" Wl et Hl convergent toutes les deux (à une précision donnée)
+	
+Ici la mise à jour de W et H conservent la non-négativité de W et H car elle n'utilise que la multiplication ou division de matrices non-négatives.
